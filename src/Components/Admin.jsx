@@ -2,12 +2,12 @@
 import { useState, useEffect } from 'react';
 import RoomList from './RoomList';
 import RoomForm from './RoomForm';
-import axios from 'axios';
+import api from '../utils/api';
 
 export default function Admin() {
   const [rooms, setRooms] = useState([]);
   const [editingRoom, setEditingRoom] = useState(null);
-  const API_URL = 'http://localhost:3000/api/rooms'; 
+  const API_URL = '/rooms';
 
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function Admin() {
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get(API_URL);
+      const res = await api.get(API_URL);
       setRooms(res.data);
     } catch (err) {
       alert('Failed to load rooms');
@@ -27,9 +27,9 @@ export default function Admin() {
   const handleSave = async (roomData) => {
     try {
       if (editingRoom) {
-        await axios.put(`${API_URL}/${editingRoom._id}`, roomData);
+        await api.put(`${API_URL}/${editingRoom._id}`, roomData);
       } else {
-        await axios.post(API_URL, roomData);
+        await api.post(API_URL, roomData);
       }
       fetchRooms();
       setEditingRoom(null);
@@ -42,7 +42,7 @@ export default function Admin() {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this room?')) return;
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await api.delete(`${API_URL}/${id}`);
       fetchRooms();
     } catch (err) {
       alert('Failed to delete room');
