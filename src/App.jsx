@@ -8,12 +8,13 @@ import LodgePage from './Components/LodgePage'
 import Support from './Components/Support'
 import { Routes, Route } from 'react-router-dom'
 import { SignIn, SignUp } from '@clerk/clerk-react'
-import React from 'react'
+import Admin from './Components/Admin'
 
 const App = () => {
   return (
     <Routes>
       {/* Home Page Route */}
+      <Route path="/admin" element={<Admin/>}/>
       <Route path="/" element={
         <div>
           <Navbar />
